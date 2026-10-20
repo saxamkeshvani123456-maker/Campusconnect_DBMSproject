@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero-grid">
+  <div class="hero-copy">
+    <div class="eyebrow"><span class="pulse-dot"></span> THE CAMPUS, CONNECTED</div>
+    <h1>Make campus life<br>feel <em>closer.</em></h1>
+    <p class="hero-lede">Your space for finding events, meeting communities, and staying in the loop with everything happening on campus.</p>
+    <div class="hero-actions"><a class="btn btn-primary btn-large" href="{{ url_for('events') }}">Explore what's happening <span>↗</span></a><a class="text-link" href="{{ url_for('clubs') }}">Find your people <span>→</span></a></div>
+    <div class="hero-proof"><div class="mini-avatars"><span>A</span><span>K</span><span>R</span><span>+</span></div><div><strong>A little more connected.</strong><small>Events, clubs and notices in one place.</small></div></div>
+  </div>
+  <div class="hero-art" aria-label="Illustration of the CampusConnect community">
+    <div class="orb orb-one"></div><div class="orb orb-two"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+    <div class="connect-card main-connect-card"><div class="card-spark">✦</div><span class="tiny-label">YOUR CAMPUS FEED</span><h3>Good things<br>happen together.</h3><div class="card-divider"></div><div class="event-teaser"><span class="teaser-icon">✳</span><div><strong>Something to look forward to</strong><small>Discover your next campus moment</small></div><span class="teaser-arrow">↗</span></div></div>
+    <div class="float-chip chip-top"><span class="chip-icon purple">✳</span><span><strong>{{ stats.events }} upcoming</strong><small>campus events</small></span></div>
+    <div class="float-chip chip-bottom"><span class="chip-icon yellow">◎</span><span><strong>{{ stats.clubs }} communities</strong><small>to find your people</small></span></div>
+    <div class="art-caption">A campus that feels a little smaller.</div>
+  </div>
+</section>
+
+<section class="stats-strip" aria-label="CampusConnect stats">
+  <div><span class="stat-number">{{ stats.events }}</span><span class="stat-label">Upcoming events</span></div>
+  <div><span class="stat-number">{{ stats.clubs }}</span><span class="stat-label">Student clubs</span></div>
+  <div><span class="stat-number">{{ stats.students }}</span><span class="stat-label">Student accounts</span></div>
+  <div class="stat-note"><span class="pulse-dot"></span>One campus. More possibilities.</div>
+</section>
+
+<section class="section-block">
+  <div class="section-heading"><div><div class="eyebrow">SAVE THE DATE</div><h2>What's coming up<span class="accent-period">.</span></h2><p>Small moments, new skills, great people. Find a reason to show up.</p></div><a class="text-link" href="{{ url_for('events') }}">All events <span>→</span></a></div>
+  {% if events %}<div class="event-grid">
+    {% for event in events %}<article class="event-card"><div class="event-card-top"><span class="event-tag">{{ event.club_name or 'Campus-wide' }}</span><span class="event-arrow">↗</span></div><div class="event-date"><span class="date-month">{{ event.event_date[5:7] }}</span><span>{{ event.event_date[:4] }}</span></div><h3>{{ event.title }}</h3><p>{{ event.description }}</p><div class="event-card-meta"><span>⌖ {{ event.location }}</span><span>{{ event.registered_count }}/{{ event.capacity }} spots</span></div><a class="card-link" href="{{ url_for('events') }}">View event <span>→</span></a></article>{% endfor %}
+  </div>{% else %}<div class="empty-state"><span>✳</span><h3>A little quiet for now.</h3><p>New events will appear here when they're published.</p></div>{% endif %}
+</section>
+
+<section class="community-banner"><div class="banner-symbol">✳</div><div><div class="eyebrow light">YOUR NEXT CHAPTER STARTS HERE</div><h2>Find your people.<br>Make your campus yours.</h2></div><a class="btn btn-light" href="{{ url_for('clubs') }}">Explore campus clubs <span>↗</span></a><div class="banner-decoration">✦</div></section>
+
+{% if announcements %}<section class="section-block announcements-preview"><div class="section-heading"><div><div class="eyebrow">THE NOTICE BOARD</div><h2>In the know<span class="accent-period">.</span></h2></div><a class="text-link" href="{{ url_for('announcements') }}">All announcements <span>→</span></a></div><div class="notice-list">{% for notice in announcements %}<article class="notice-row"><span class="notice-icon">↗</span><div><h3>{{ notice.title }}</h3><p>{{ notice.content }}</p><small>Posted {{ notice.posted_at[:10] }}</small></div><span class="notice-audience">{{ notice.audience|title }}</span></article>{% endfor %}</div></section>{% endif %}
+{% endblock %}

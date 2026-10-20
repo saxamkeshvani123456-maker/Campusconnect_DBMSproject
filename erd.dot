@@ -1,0 +1,44 @@
+digraph CampusConnectERD {
+  graph [rankdir=LR, splines=polyline, size="16,7!", ratio=fill, ranksep=1.7, nodesep=0.4, nodesep=0.65, ranksep=1.0, bgcolor="#ffffff", pad=0.22, fontname="Arial", label="CampusConnect - Entity Relationship Model", labelloc=t, fontsize=20, fontcolor="#171b36"];
+  node [shape=plain, fontname="Arial"];
+  edge [fontname="Arial", fontsize=10, color="#65718a", penwidth=1.4, arrowsize=0.7];
+  users [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#26304f">
+    <TR><TD BGCOLOR="#202747"><FONT COLOR="white"><B>USERS</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><FONT COLOR="#1f795f"><B>PK</B></FONT> user_id</TD></TR>
+    <TR><TD ALIGN="LEFT">full_name</TD></TR><TR><TD ALIGN="LEFT">email (unique)</TD></TR><TR><TD ALIGN="LEFT">password_hash</TD></TR><TR><TD ALIGN="LEFT">department, study_year</TD></TR><TR><TD ALIGN="LEFT">role, created_at</TD></TR>
+    </TABLE>>];
+  clubs [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#26304f">
+    <TR><TD BGCOLOR="#202747"><FONT COLOR="white"><B>CLUBS</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><FONT COLOR="#1f795f"><B>PK</B></FONT> club_id</TD></TR><TR><TD ALIGN="LEFT">name (unique), category</TD></TR><TR><TD ALIGN="LEFT">description</TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#5369a5"><B>FK</B></FONT> created_by</TD></TR><TR><TD ALIGN="LEFT">created_at</TD></TR>
+    </TABLE>>];
+  events [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#26304f">
+    <TR><TD BGCOLOR="#202747"><FONT COLOR="white"><B>EVENTS</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><FONT COLOR="#1f795f"><B>PK</B></FONT> event_id</TD></TR><TR><TD ALIGN="LEFT">title, description</TD></TR><TR><TD ALIGN="LEFT">event_date, location, capacity</TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#5369a5"><B>FK</B></FONT> club_id (optional)</TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#5369a5"><B>FK</B></FONT> created_by</TD></TR><TR><TD ALIGN="LEFT">created_at</TD></TR>
+    </TABLE>>];
+  club_memberships [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#26304f">
+    <TR><TD BGCOLOR="#387b70"><FONT COLOR="white"><B>CLUB_MEMBERSHIPS</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><FONT COLOR="#1f795f"><B>PK, FK</B></FONT> user_id</TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#1f795f"><B>PK, FK</B></FONT> club_id</TD></TR><TR><TD ALIGN="LEFT">joined_at, status</TD></TR>
+    </TABLE>>];
+  event_registrations [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#26304f">
+    <TR><TD BGCOLOR="#387b70"><FONT COLOR="white"><B>EVENT_REGISTRATIONS</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><FONT COLOR="#1f795f"><B>PK, FK</B></FONT> event_id</TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#1f795f"><B>PK, FK</B></FONT> user_id</TD></TR><TR><TD ALIGN="LEFT">registered_at, status</TD></TR>
+    </TABLE>>];
+  announcements [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#26304f">
+    <TR><TD BGCOLOR="#202747"><FONT COLOR="white"><B>ANNOUNCEMENTS</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><FONT COLOR="#1f795f"><B>PK</B></FONT> announcement_id</TD></TR><TR><TD ALIGN="LEFT">title, content, audience</TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#5369a5"><B>FK</B></FONT> posted_by</TD></TR><TR><TD ALIGN="LEFT">posted_at, expires_at</TD></TR>
+    </TABLE>>];
+  users -> clubs [label="1:N"];
+  users -> events [label="1:N"];
+  clubs -> events [label="1:N optional"];
+  users -> club_memberships [label="1:N"];
+  clubs -> club_memberships [label="1:N"];
+  users -> event_registrations [label="1:N"];
+  events -> event_registrations [label="1:N"];
+  users -> announcements [label="1:N"];
+}

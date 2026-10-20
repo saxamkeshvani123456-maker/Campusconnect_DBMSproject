@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CampusConnect brings campus events, clubs, and announcements into one student-friendly space.">
+  <title>{% block title %}CampusConnect{% endblock %} | CampusConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+  <div class="topline"></div>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('index') }}" aria-label="CampusConnect home">
+      <span class="brand-mark">cc<span>.</span></span>
+      <span class="brand-name">Campus<span>Connect</span><small>YOUR CAMPUS, IN ONE PLACE</small></span>
+    </a>
+    <button class="mobile-menu" type="button" aria-label="Toggle navigation" aria-expanded="false" data-menu-toggle>☰</button>
+    <nav class="nav-links" data-nav>
+      <a href="{{ url_for('events') }}" class="{% if request.endpoint in ['events'] %}active{% endif %}">Events</a>
+      <a href="{{ url_for('clubs') }}" class="{% if request.endpoint == 'clubs' %}active{% endif %}">Clubs</a>
+      <a href="{{ url_for('announcements') }}" class="{% if request.endpoint == 'announcements' %}active{% endif %}">Notice board</a>
+      {% if current_user and current_user.role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}" class="nav-admin">Admin studio</a>{% endif %}
+    </nav>
+    <div class="header-actions">
+      {% if current_user %}
+        <a class="avatar-link" href="{{ url_for('profile') }}"><span class="avatar">{{ current_user.full_name[:1]|upper }}</span><span class="user-label">{{ current_user.full_name.split()[0] }}</span></a>
+        <form action="{{ url_for('logout') }}" method="post" class="inline-form"><button class="btn btn-ghost btn-small" type="submit">Log out</button></form>
+      {% else %}
+        <a class="btn btn-ghost btn-small" href="{{ url_for('login') }}">Log in</a>
+        <a class="btn btn-primary btn-small" href="{{ url_for('register') }}">Join CampusConnect <span>↗</span></a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="page-shell">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}<div class="flash-stack" aria-live="polite">
+        {% for category, message in messages %}<div class="flash flash-{{ category }}"><span>{{ '✓' if category == 'success' else '!' }}</span>{{ message }}<button type="button" aria-label="Dismiss message" data-dismiss>×</button></div>{% endfor %}
+      </div>{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="footer-brand"><span class="brand-mark mini">cc<span>.</span></span><span>CampusConnect</span></div>
+    <p>Made for a more connected campus.</p>
+    <span>DBMS Project · SVNIT Surat · {{ current_year }}</span>
+  </footer>
+</body>
+</html>
