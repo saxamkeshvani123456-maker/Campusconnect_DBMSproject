@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CampusConnect - DBMS Project
 
 **Course:** Database Management Systems (CS203)  
@@ -104,3 +105,6 @@ python -m unittest discover -s tests -v
 ```
 
 The Flask app has not been run end-to-end in the file-generation environment because Flask could not be installed there. Install `requirements.txt` and run the local checks on your machine before claiming a full end-to-end test in the final report.
+=======
+# Campusconnect_DBMSproject
+>>>>>>> 4e6fd62b97e0da5e0cff0aafcc0f06b932be54f7
